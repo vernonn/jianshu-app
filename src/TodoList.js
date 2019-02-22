@@ -10,4 +10,4 @@ class TodoList extends Component {
   }
 }
 
-export default App;
+export default TodoList;
