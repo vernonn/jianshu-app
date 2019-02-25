@@ -46,24 +46,24 @@ class TodoList extends Component {
   }
   // 使用ES6的箭头函数就不需要在JSX中使用.bind(this)
   handleInputChange(e) {
-    this.setState({
-      inputValue: e.target.value
-    })
+    let value = e.target.value
+    this.setState(() =>({
+      inputValue: value
+    }))
   }
   handleButtonClick() {
-    const { inputValue, list } = this.state;
-    this.setState({
-      list: [...list, inputValue],
+    this.setState((prev) => ({
+      list: [...prev.list, prev.inputValue],
       inputValue: ''
-    })
+    }))
   }
   handleItemDel(idx) {
     const { list } = this.state;
     const newList = [...list]
     newList.splice(idx, 1)
-    this.setState({
+    this.setState(() => ({
       list: [...newList],
-    })
+    }))
   }
 }
 
