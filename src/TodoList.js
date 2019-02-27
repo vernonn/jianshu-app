@@ -25,6 +25,7 @@ class TodoList extends Component {
             id="input"
             value={inputValue}
             onChange={this.handleInputChange}
+            ref={(input) => {this.input = input}}
           />
           <button onClick={this.handleButtonClick}>提交</button>
         </div>
@@ -38,31 +39,36 @@ class TodoList extends Component {
   getTodoItem() {
     return this.state.list.map((item, idx) => {
       return (
-        <Fragment key={idx}>
-          <TodoItem content={item} index={idx} delItem={this.handleItemDel}/>
-        </Fragment>
+        <TodoItem
+          key={idx}
+          content={item}
+          index={idx}
+          delItem={this.handleItemDel}/>
       )
     })
   }
   // 使用ES6的箭头函数就不需要在JSX中使用.bind(this)
   handleInputChange(e) {
-    this.setState({
-      inputValue: e.target.value
-    })
+    const value = this.input.value
+    this.setState(() => ({
+      inputValue: value
+    }))
   }
   handleButtonClick() {
-    const { inputValue, list } = this.state;
-    this.setState({
-      list: [...list, inputValue],
-      inputValue: ''
-    })
+    if (this.state.inputValue) {
+      this.setState((prev) => ({
+        list: [...prev.list, prev.inputValue],
+        inputValue: ''
+      }))
+    }
   }
   handleItemDel(idx) {
-    const { list } = this.state;
-    const newList = [...list]
-    newList.splice(idx, 1)
-    this.setState({
-      list: [...newList],
+    this.setState((prev) => {
+      const newList = [...prev.list]
+      newList.splice(idx, 1)
+      return {
+        list: [...newList],
+      }
     })
   }
 }
