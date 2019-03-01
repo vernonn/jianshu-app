@@ -26,7 +26,7 @@ class TodoItem extends Component {
 }
 
 TodoItem.propTypes = {
-  content: PropTypes.string,
+  content: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   delItem: PropTypes.func,
   index: PropTypes.number
 }
